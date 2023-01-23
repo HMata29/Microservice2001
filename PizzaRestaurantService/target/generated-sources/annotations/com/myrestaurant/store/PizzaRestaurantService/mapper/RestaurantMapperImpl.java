@@ -1,6 +1,5 @@
 package com.myrestaurant.store.PizzaRestaurantService.mapper;
 
-import com.myrestaurant.store.PizzaRestaurantService.dto.DriverDTO;
 import com.myrestaurant.store.PizzaRestaurantService.dto.RestaurantDTO;
 import com.myrestaurant.store.PizzaRestaurantService.model.Driver;
 import com.myrestaurant.store.PizzaRestaurantService.model.Restaurant;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-01-23T14:38:39+0100",
+    date = "2023-01-23T16:17:37+0100",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 19.0.1 (Oracle Corporation)"
 )
 @Component
@@ -31,7 +30,10 @@ public class RestaurantMapperImpl implements RestaurantMapper {
         restaurant.name( dto.getName() );
         restaurant.address( dto.getAddress() );
         restaurant.city( dto.getCity() );
-        restaurant.drivers( driverDTOSetToDriverSet( dto.getDrivers() ) );
+        Set<Driver> set = dto.getDrivers();
+        if ( set != null ) {
+            restaurant.drivers( new LinkedHashSet<Driver>( set ) );
+        }
 
         return restaurant.build();
     }
@@ -48,7 +50,10 @@ public class RestaurantMapperImpl implements RestaurantMapper {
         restaurantDTO.name( entity.getName() );
         restaurantDTO.address( entity.getAddress() );
         restaurantDTO.city( entity.getCity() );
-        restaurantDTO.drivers( driverSetToDriverDTOSet( entity.getDrivers() ) );
+        Set<Driver> set = entity.getDrivers();
+        if ( set != null ) {
+            restaurantDTO.drivers( new LinkedHashSet<Driver>( set ) );
+        }
 
         return restaurantDTO.build();
     }
@@ -79,57 +84,5 @@ public class RestaurantMapperImpl implements RestaurantMapper {
         }
 
         return list;
-    }
-
-    protected Driver driverDTOToDriver(DriverDTO driverDTO) {
-        if ( driverDTO == null ) {
-            return null;
-        }
-
-        Driver.DriverBuilder driver = Driver.builder();
-
-        driver.id( driverDTO.getId() );
-        driver.name( driverDTO.getName() );
-
-        return driver.build();
-    }
-
-    protected Set<Driver> driverDTOSetToDriverSet(Set<DriverDTO> set) {
-        if ( set == null ) {
-            return null;
-        }
-
-        Set<Driver> set1 = new LinkedHashSet<Driver>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
-        for ( DriverDTO driverDTO : set ) {
-            set1.add( driverDTOToDriver( driverDTO ) );
-        }
-
-        return set1;
-    }
-
-    protected DriverDTO driverToDriverDTO(Driver driver) {
-        if ( driver == null ) {
-            return null;
-        }
-
-        DriverDTO.DriverDTOBuilder driverDTO = DriverDTO.builder();
-
-        driverDTO.id( driver.getId() );
-        driverDTO.name( driver.getName() );
-
-        return driverDTO.build();
-    }
-
-    protected Set<DriverDTO> driverSetToDriverDTOSet(Set<Driver> set) {
-        if ( set == null ) {
-            return null;
-        }
-
-        Set<DriverDTO> set1 = new LinkedHashSet<DriverDTO>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
-        for ( Driver driver : set ) {
-            set1.add( driverToDriverDTO( driver ) );
-        }
-
-        return set1;
     }
 }

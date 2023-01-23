@@ -12,6 +12,10 @@ import java.util.List;
 
 @Api(tags = "restaurant API")
 public interface RestaurantController {
+
+    @ApiOperation("add pizza to the  Restaurant")
+    public RestaurantDTO addPizzasToRestaurant(@RequestBody RestaurantDTO restaurantDTO);
+
     @ApiOperation("Add new Restaurant ")
     public RestaurantDTO save(@RequestBody RestaurantDTO restaurantDTO);
 
