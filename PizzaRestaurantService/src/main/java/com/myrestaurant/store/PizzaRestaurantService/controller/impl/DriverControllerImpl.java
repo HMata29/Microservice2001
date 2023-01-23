@@ -56,6 +56,7 @@ public class DriverControllerImpl implements DriverControleller {
     }
 
     @Override
+    @PutMapping("/{id}")
     public DriverDTO update(@RequestBody  DriverDTO driverDTO,@PathVariable("id") Long id) {
         Driver driver = driverMapper.asEntity(driverDTO);
         return driverMapper.asDTO(driverService.update(driver,id));

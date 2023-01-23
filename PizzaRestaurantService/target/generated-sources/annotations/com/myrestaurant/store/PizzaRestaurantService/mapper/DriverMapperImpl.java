@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-01-23T14:09:19+0100",
+    date = "2023-01-23T14:38:38+0100",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 19.0.1 (Oracle Corporation)"
 )
 @Component
@@ -23,6 +23,9 @@ public class DriverMapperImpl implements DriverMapper {
 
         Driver.DriverBuilder driver = Driver.builder();
 
+        driver.id( dto.getId() );
+        driver.name( dto.getName() );
+
         return driver.build();
     }
 
@@ -32,9 +35,12 @@ public class DriverMapperImpl implements DriverMapper {
             return null;
         }
 
-        DriverDTO driverDTO = new DriverDTO();
+        DriverDTO.DriverDTOBuilder driverDTO = DriverDTO.builder();
 
-        return driverDTO;
+        driverDTO.id( entity.getId() );
+        driverDTO.name( entity.getName() );
+
+        return driverDTO.build();
     }
 
     @Override
