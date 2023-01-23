@@ -1,6 +1,7 @@
 package com.myrestaurant.store.PizzaRestaurantService.mapper;
 
 import com.myrestaurant.store.PizzaRestaurantService.dto.PizzaDTO;
+import com.myrestaurant.store.PizzaRestaurantService.dto.ToppingDTO;
 import com.myrestaurant.store.PizzaRestaurantService.model.Pizza;
 import com.myrestaurant.store.PizzaRestaurantService.model.Topping;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-01-20T17:58:44+0100",
+    date = "2023-01-23T11:18:20+0100",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 19.0.1 (Oracle Corporation)"
 )
 @Component
@@ -29,10 +30,7 @@ public class PizzaMapperImpl implements PizzaMapper {
         pizza.id( dto.getId() );
         pizza.name( dto.getName() );
         pizza.favorite( dto.isFavorite() );
-        Set<Topping> set = dto.getToppings();
-        if ( set != null ) {
-            pizza.toppings( new LinkedHashSet<Topping>( set ) );
-        }
+        pizza.toppings( toppingDTOSetToToppingSet( dto.getToppings() ) );
 
         return pizza.build();
     }
@@ -48,10 +46,7 @@ public class PizzaMapperImpl implements PizzaMapper {
         pizzaDTO.id( entity.getId() );
         pizzaDTO.name( entity.getName() );
         pizzaDTO.favorite( entity.isFavorite() );
-        Set<Topping> set = entity.getToppings();
-        if ( set != null ) {
-            pizzaDTO.toppings( new LinkedHashSet<Topping>( set ) );
-        }
+        pizzaDTO.toppings( toppingSetToToppingDTOSet( entity.getToppings() ) );
 
         return pizzaDTO.build();
     }
@@ -71,16 +66,68 @@ public class PizzaMapperImpl implements PizzaMapper {
     }
 
     @Override
-    public List<PizzaDTO> asDTOList(List<PizzaDTO> entityList) {
+    public List<PizzaDTO> asDTOList(List<Pizza> entityList) {
         if ( entityList == null ) {
             return null;
         }
 
         List<PizzaDTO> list = new ArrayList<PizzaDTO>( entityList.size() );
-        for ( PizzaDTO pizzaDTO : entityList ) {
-            list.add( pizzaDTO );
+        for ( Pizza pizza : entityList ) {
+            list.add( asDTO( pizza ) );
         }
 
         return list;
+    }
+
+    protected Topping toppingDTOToTopping(ToppingDTO toppingDTO) {
+        if ( toppingDTO == null ) {
+            return null;
+        }
+
+        Topping.ToppingBuilder topping = Topping.builder();
+
+        topping.id( toppingDTO.getId() );
+        topping.name( toppingDTO.getName() );
+
+        return topping.build();
+    }
+
+    protected Set<Topping> toppingDTOSetToToppingSet(Set<ToppingDTO> set) {
+        if ( set == null ) {
+            return null;
+        }
+
+        Set<Topping> set1 = new LinkedHashSet<Topping>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
+        for ( ToppingDTO toppingDTO : set ) {
+            set1.add( toppingDTOToTopping( toppingDTO ) );
+        }
+
+        return set1;
+    }
+
+    protected ToppingDTO toppingToToppingDTO(Topping topping) {
+        if ( topping == null ) {
+            return null;
+        }
+
+        ToppingDTO.ToppingDTOBuilder toppingDTO = ToppingDTO.builder();
+
+        toppingDTO.id( topping.getId() );
+        toppingDTO.name( topping.getName() );
+
+        return toppingDTO.build();
+    }
+
+    protected Set<ToppingDTO> toppingSetToToppingDTOSet(Set<Topping> set) {
+        if ( set == null ) {
+            return null;
+        }
+
+        Set<ToppingDTO> set1 = new LinkedHashSet<ToppingDTO>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
+        for ( Topping topping : set ) {
+            set1.add( toppingToToppingDTO( topping ) );
+        }
+
+        return set1;
     }
 }

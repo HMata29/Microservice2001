@@ -1,5 +1,6 @@
 package com.myrestaurant.store.PizzaRestaurantService.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -29,5 +30,6 @@ public class Topping implements Serializable {
 
 
     @ManyToMany(mappedBy = "toppings" ,cascade = {CascadeType.PERSIST,CascadeType.MERGE} )//mapped by per indicare toppings value su pizza.java
+    @JsonIgnore
     private Set<Pizza> pizzas = new HashSet<>();
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-01-20T17:58:44+0100",
+    date = "2023-01-23T11:18:20+0100",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 19.0.1 (Oracle Corporation)"
 )
 @Component
@@ -58,14 +58,14 @@ public class ToppingMapperImpl implements ToppingMapper {
     }
 
     @Override
-    public List<ToppingDTO> asDTOList(List<ToppingDTO> entityList) {
+    public List<ToppingDTO> asDTOList(List<Topping> entityList) {
         if ( entityList == null ) {
             return null;
         }
 
         List<ToppingDTO> list = new ArrayList<ToppingDTO>( entityList.size() );
-        for ( ToppingDTO toppingDTO : entityList ) {
-            list.add( toppingDTO );
+        for ( Topping topping : entityList ) {
+            list.add( asDTO( topping ) );
         }
 
         return list;

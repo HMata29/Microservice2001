@@ -39,7 +39,7 @@ public class PizzaServiceImpl implements PizzaService {
 
     @Override
     public List<Pizza> findAll() {
-        return (List<Pizza>) repository.findAll();
+        return repository.findAll();
     }
 
     @Override
